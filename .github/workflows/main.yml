@@ -86,15 +86,15 @@ jobs:
       # Generates a coverage report
       - name: Generate coverage report
         run: |
-          ./build.sh --coverage
-          touch doc/html/coverage.md
+          ./build.sh --coverage --docs
+          touch doc/html/coverage/nyan.md
           
-      # Uploads docs artifact
-      - name: Upload docs artifact
+      # Uploads coverage report artifact
+      - name: Upload coverage report artifact
         uses: actions/upload-artifact@v2
         with:
-          name: html
-          path: ./doc/html/coverage.md
+          name: coverage
+          path: ./doc/html/coverage
           retention-days: 90
 
 
