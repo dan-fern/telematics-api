@@ -1,0 +1,8 @@
+build/*
+example_output.json
+doc/html/
+test/build/*
+test/gtest/*
+utils/sensing_simulator/build/*
+.vscode
+.DS_Store
