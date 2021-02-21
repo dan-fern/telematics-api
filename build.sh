@@ -1,15 +1,5 @@
 #!/bin/bash
 
-rm -rf ./build
-
-rm -rf ./doc/html/res
-mkdir -p ./doc/html/res
-cp -r ./doc/api/read ./doc/html/res/read
-cp -r ./doc/api/write ./doc/html/res/write
-cp ./doc/api/threat_data.png ./doc/html/res/threat_data.png
-cp ./doc/vehiclestatuscodes.md ./doc/html/res/vehiclestatuscodes.md
-echo "JSON message templates loaded for doxygen."
-
 git submodule init depends/json
 git submodule update --remote depends/json
 echo "JSON parsing library downloaded."
@@ -50,6 +40,15 @@ do
 	shift
 done
 
+rm -rf ./doc/html/res
+mkdir -p ./doc/html/res
+cp -r ./doc/api/read ./doc/html/res/read
+cp -r ./doc/api/write ./doc/html/res/write
+cp ./doc/api/threat_data.png ./doc/html/res/threat_data.png
+cp ./doc/vehiclestatuscodes.md ./doc/html/res/vehiclestatuscodes.md
+echo "JSON message templates loaded for doxygen."
+
+rm -rf ./build
 mkdir build
 # cd build
 # cmake .. -D${BUILD_COVERAGE_REPORT}
@@ -86,16 +85,16 @@ mkdir build
 # 	fi
 # fi
 #
-# if [ ${BUILD_DOCS} ]
-# then
-# 	cd ./../doc
-# 	chmod +x build.sh
-# 	./build.sh
-# 	cd ./../
-# 	echo "doxygen docs built."
-# 	echo "From doc/ open 'html/index.html' for landing page."
-# 	echo "- - -"
-# fi
+if [ ${BUILD_DOCS} ]
+then
+	cd ./../doc
+	chmod +x build.sh
+	./build.sh
+	cd ./../
+	echo "doxygen docs built."
+	echo "From doc/ open 'html/index.html' for landing page."
+	echo "- - -"
+fi
 
 echo "If no mobile device available, use mobile_placeholder.py to test JSON."
 echo "From utils/ run '$ python mobile_placeholder.py' to send / receive JSON."
