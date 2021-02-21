@@ -50,7 +50,7 @@ do
 	shift
 done
 
-# mkdir build
+mkdir build
 # cd build
 # cmake .. -D${BUILD_COVERAGE_REPORT}
 # make

@@ -38,6 +38,19 @@ jobs:
           ./build.sh
           ./build.sh --sim --tests --docs 
           
+      # Uploads needed artifacts
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: ./build/
+          retention-days: 10
+        with:
+          name: html
+          path: ./doc/html/
+          retention-days: 90
+
+          
   # This job tests all executables that are compiled
   test-repo:
     # The type of runner that the job will run on
@@ -46,13 +59,16 @@ jobs:
     
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      # - uses: actions/checkout@v2
+      # Checks-out artifacts
+      - name: Download needed artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: build
 
       # Set up the runner for compiling the repository
       - name: test build dirs
         run: |
-          ls -lah doc/html/res
+          ls -lah build
 
     
   # This job calls the unit test suite and generates a test coverage report
@@ -63,12 +79,28 @@ jobs:
     
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      # - uses: actions/checkout@v2
+      # Checks-out artifacts
+      - name: Download needed artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: html
 
       # Set up the runner for compiling the repository
       - name: test build dirs
         run: |
           ls -lah doc/html/res
+          
+      # Compiles the repository
+      - name: Build repository
+        run: |
+          ./build.sh --coverage
+          
+      # Uploads final artifacts
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage
+          path: ./build/
+          retention-days: 90
 
 
