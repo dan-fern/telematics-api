@@ -1,0 +1,3 @@
+{
+    "threats" : Array<Integer>  // Array of 32 ints, each ranging from 0-19
+}

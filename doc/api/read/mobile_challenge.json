@@ -1,0 +1,3 @@
+{
+    "packed_bytes" : String          // Unsigned Long containing 8 unsigned bytes, transmitted as a String
+}

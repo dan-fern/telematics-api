@@ -1,0 +1,3 @@
+{
+    "api_version" : String         // current version of this api in the vehicle TCU
+}

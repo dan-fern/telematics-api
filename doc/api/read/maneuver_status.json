@@ -1,0 +1,5 @@
+{
+    "maneuver" : String,    // "* Maneuver Name" | blank
+    "progress" : Integer,   // 0-100 - not currently offered in production
+    "status" : Integer      // ManeuverStatus Integer (900 series of codes from Vehicle Status Codes)
+}

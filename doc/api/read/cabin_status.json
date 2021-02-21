@@ -1,0 +1,10 @@
+{
+    "power_status" : Integer,           // 0: Key Out, 1: Key Recently Out, 2: Key Approved, 3: Post Accessory, 4: Accessory, 5: Post Ignition, 6: Ignition On, 7: Running, 9: Crank
+    "door_open_driver" : Boolean,
+    "door_open_passenger" : Boolean,
+    "door_open_lr" : Boolean,
+    "door_open_rr" : Boolean,
+    "door_open_tailgate" : Boolean,
+    "door_open_engine_hood" : Boolean,
+    "lock_status" : Integer             // 0: Unlocked, 1: Part Locked, 2: Central Locked, 3: Double Locked, 4: TheftProtectNODoubleLock, 5: Unused
+}

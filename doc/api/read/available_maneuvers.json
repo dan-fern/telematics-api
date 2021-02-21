@@ -1,0 +1,23 @@
+{
+    "default" : String,                 // * Maneuver Name | blank
+    "continue_exploring" : Boolean,	    // false when LMPushPullMnvrAvailRMT = 2
+    "maneuvers" : {
+        "OutLftFwd" : Boolean,          // Out Left Forward
+        "OutLftRvs" : Boolean,          // Out Left Reverse
+        "OutRgtFwd" : Boolean,          // Out Right Forward
+        "OutRgtRvs" : Boolean,          // Out Right Reverse
+        "InLftFwd" : Boolean,           // In Left Forward
+        "InLftRvs" : Boolean,           // In Left Reverse
+        "InRgtFwd" : Boolean,           // In Right Forward
+        "InRgtRvs" : Boolean,           // In Right Reverse
+        "NdgFwd" : Boolean,             // Nudge Forward
+        "NdgRvs" : Boolean,             // Nudge Reverse
+        "StrFwd" : Boolean,             // Straight Forward
+        "StrRvs" : Boolean,             // Straight Reverse
+        "OutLftPrl" : Boolean,          // Out Left Parallel
+        "OutRgtPrl" : Boolean,          // Out Right Parallel
+        "InLftPrl" : Boolean,           // In Left Parallel
+        "InRgtPrl" : Boolean,           // In Right Parallel
+        "RtnToOgn" : Boolean            // Return To Origin
+    }
+}

@@ -1,0 +1,3 @@
+{
+    "response_to_challenge" : String        // computed 32-bit value packed in MSB of 64-bit Unsigned Long, transmitted as a String
+}
