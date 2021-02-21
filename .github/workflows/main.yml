@@ -37,23 +37,14 @@ jobs:
         run: |
           ./build.sh
           ./build.sh --sim --tests --docs 
-          touch build/nyan.md
           
-      # Uploads build artifact
+      # Uploads repo artifact
       - name: Upload build artifact
         uses: actions/upload-artifact@v2
         with:
-          name: build
-          path: ./build/
-          retention-days: 10
-
-      # Uploads docs artifact
-      - name: Upload docs artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: html
-          path: ./doc/html/
-          retention-days: 90
+          name: built-repo
+          path: ./
+          retention-days: 1
 
           
   # This job tests all executables that are compiled
@@ -68,7 +59,7 @@ jobs:
       - name: Download needed artifacts
         uses: actions/download-artifact@v2
         with:
-          name: build
+          name: built-repo
 
       # Set up the runner for compiling the repository
       - name: test build dirs
@@ -88,14 +79,14 @@ jobs:
       - name: Download needed artifacts
         uses: actions/download-artifact@v2
         with:
-          name: html
+          name: built-repo
 
       # Set up the runner for compiling the repository
       - name: test build dirs
         run: |
           pwd
           ls
-      #    ls -lah doc/html/res
+          ls -lah doc/html/res
           
       # Generates a coverage report
       - name: Generate coverage report
