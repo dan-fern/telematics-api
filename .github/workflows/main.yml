@@ -37,6 +37,7 @@ jobs:
         run: |
           ./build.sh
           ./build.sh --sim --tests --docs 
+          touch build/nyan.md
           
       # Uploads repo artifact
       - name: Upload build artifact
@@ -44,15 +45,7 @@ jobs:
         with:
           name: build
           path: ./build
-          retention-days: 10
-
-      # Uploads docs artifact
-      - name: Upload docs artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: html
-          path: ./doc/html/
-          retention-days: 10
+          retention-days: 1
 
           
   # This job tests all executables that are compiled
@@ -89,32 +82,19 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      
-      # Checks-out artifacts
-      - name: Download needed artifacts
-        uses: actions/download-artifact@v2
-        with:
-          name: html
-          path: ./doc/html
-
-      # Set up the runner for compiling the repository
-      - name: test html dirs
-        run: |
-          pwd
-          ls
-          ls -lah doc/html/res
           
       # Generates a coverage report
       - name: Generate coverage report
         run: |
           ./build.sh --coverage
+          touch doc/html/coverage.md
           
-      # Uploads final artifacts
-      - name: Upload coverage report
+      # Uploads docs artifact
+      - name: Upload docs artifact
         uses: actions/upload-artifact@v2
         with:
-          name: coverage
-          path: ./build/
+          name: html
+          path: ./doc/html/coverage.md
           retention-days: 90
 
 
