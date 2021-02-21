@@ -50,14 +50,17 @@ echo "JSON message templates loaded for doxygen."
 
 rm -rf ./build
 mkdir build
-# cd build
+# cd ./build
 # cmake .. -D${BUILD_COVERAGE_REPORT}
 # make
+# cd ./../
 
 # if [ ${BUILD_SIM} ]
 # then
+#	  cd ./build
 #     cmake .. -D${BUILD_SIM}
 #     make
+#     cd ./../
 # 	echo "Simulator built."
 # 	echo "From build/ run '$ ./utils/sensing_simulator/telematics-api-sim' for simulator."
 # 	echo "- - -"
@@ -65,20 +68,22 @@ mkdir build
 #
 # if [ ${BUILD_TESTS} ]
 # then
+#     cd ./build
 #     cmake .. -D${BUILD_TESTS} -D${BUILD_COVERAGE_REPORT}
 #     make
+#     cd ./../
 # 	echo "Tests built."
 # 	echo "From build/ run '$ ./utils/test/tcu-api-tests' for unit test suite."
 # 	echo "- - -"
 # 	if [ ${BUILD_COVERAGE_REPORT} == 'BUILD_COVERAGE_REPORT=ON' ]
 # 	then
+#       cd build
 # 		./test/tcu-api-tests
 # 		mkdir coverage
 # 		cd ./..
 # 		gcovr -f src/ -f include/ -s --html --html-details -o ./build/coverage/coverage.html > cov_summary.txt
 # 		cat cov_summary.txt
 # 		rm cov_summary.txt
-# 		cd ./build
 # 		echo "Coverage report generated."
 # 		echo "Open build/coverage/coverage.html in your browser to see the report."
 # 		echo "- - -"
@@ -87,7 +92,7 @@ mkdir build
 #
 if [ ${BUILD_DOCS} ]
 then
-	cd ./../doc
+	cd ./doc
 	chmod +x build.sh
 	./build.sh
 	cd ./../
