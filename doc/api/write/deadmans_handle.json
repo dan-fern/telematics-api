@@ -1,0 +1,7 @@
+{
+    "enable_vehicle_motion" : Boolean,
+    "dmh_gesture_progress" : Integer,
+    "dmh_horizontal_touch" : Integer,
+    "dmh_vertical_touch" : Integer,
+    "crc_value" : Integer
+}

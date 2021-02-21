@@ -1,0 +1,38 @@
+{
+    "status_1xx" : {
+        "status_code" : Integer,
+        "status_text" : String      // any details or description
+    },
+    "status_2xx" : {
+        "status_code" : Integer,
+        "status_text" : String      // any details or description
+    },
+    "status_3xx" : {
+        "status_code" : Integer,
+        "status_text" : String      // any details or description
+    },
+    "status_4xx" : {
+        "status_code" : Integer,
+        "status_text" : String      // any details or description
+    },
+    "status_5xx" : {
+        "status_code" : Integer,
+        "status_text" : String      // any details or description
+    },
+    "status_6xx" : {
+        "status_code" : Integer,
+        "status_text" : String      // any details or description
+    },
+    "status_7xx" : {
+        "status_code" : Integer,
+        "status_text" : String      // any details or description
+    },
+    "status_8xx" : {
+        "status_code" : Integer,
+        "status_text" : String      // any details or description
+    },
+    "status_9xx" : {
+        "status_code" : Integer,
+        "status_text" : String      // any details or description
+    }
+}

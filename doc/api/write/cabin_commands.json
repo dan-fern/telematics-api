@@ -1,0 +1,4 @@
+{
+    "engine_off" : Boolean,
+    "doors_locked" : Boolean  
+}

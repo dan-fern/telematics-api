@@ -1,0 +1,3 @@
+{
+    "terms_accepted" : Boolean  // useless - app should discontinue if terms are not accepted
+}
