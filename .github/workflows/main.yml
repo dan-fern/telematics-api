@@ -38,13 +38,17 @@ jobs:
           ./build.sh
           ./build.sh --sim --tests --docs 
           
-      # Uploads needed artifacts
-      - name: Upload artifacts
+      # Uploads build artifact
+      - name: Upload build artifact
         uses: actions/upload-artifact@v2
         with:
           name: build
           path: ./build/
           retention-days: 10
+
+      # Uploads docs artifact
+      - name: Upload docs artifact
+        uses: actions/upload-artifact@v2
         with:
           name: html
           path: ./doc/html/
