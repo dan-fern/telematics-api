@@ -42,9 +42,17 @@ jobs:
       - name: Upload build artifact
         uses: actions/upload-artifact@v2
         with:
-          name: built-repo
+          name: build
           path: ./
-          retention-days: 1
+          retention-days: 10
+
+      # Uploads docs artifact
+      - name: Upload docs artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: html
+          path: ./doc/html/
+          retention-days: 10
 
           
   # This job tests all executables that are compiled
@@ -55,11 +63,15 @@ jobs:
     
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      
       # Checks-out artifacts
       - name: Download needed artifacts
         uses: actions/download-artifact@v2
         with:
-          name: built-repo
+          name: build
+          path: ./build
 
       # Set up the runner for compiling the repository
       - name: test build dirs
@@ -75,14 +87,18 @@ jobs:
     
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      
       # Checks-out artifacts
       - name: Download needed artifacts
         uses: actions/download-artifact@v2
         with:
-          name: built-repo
+          name: html
+          path: ./doc/html
 
       # Set up the runner for compiling the repository
-      - name: test build dirs
+      - name: test html dirs
         run: |
           pwd
           ls
