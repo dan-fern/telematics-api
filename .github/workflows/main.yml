@@ -2,6 +2,10 @@
 
 name: CI
 
+.iac-build: &iac-build
+    tags:
+        - iac-build
+
 # Controls when the action will run.
 on:
   # Triggers the workflow on push or pull request events for the main, devel branch
@@ -17,6 +21,8 @@ on:
 jobs:
   # This job manages the dependencies and builds the repositories
   build-repo:
+    <<: *iac-build
+    
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -50,6 +56,8 @@ jobs:
           
   # This job tests all executables that are compiled
   test-repo:
+    <<: *iac-build
+    
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     needs: build-repo
@@ -74,6 +82,8 @@ jobs:
     
   # This job calls the unit test suite and generates a test coverage report
   generate-coverage-report:
+    <<: *iac-build
+    
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     needs: build-repo
@@ -82,11 +92,19 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+      
+      # Set up the runner for compiling the repository
+      - name: Build setup
+        run: |
+          sudo apt-get update -qy
+          sudo apt-get install cmake plantuml graphviz doxygen -qy
+          pip3 install gcovr
           
       # Generates a coverage report
       - name: Generate coverage report
         run: |
           ./build.sh --coverage --docs
+          mkdir doc/html/coverage/
           touch doc/html/coverage/nyan.md
           
       # Uploads coverage report artifact
