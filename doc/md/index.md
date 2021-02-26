@@ -1,13 +1,13 @@
-JLR Telematics Comms API
-============================
+Telematics Communications API
+=============================
 
-This document contains all of the documentation for Telematics Communications API (aka comms spec, comms library, `telematics-api`, etc.).  This application is used as a bridge between a remote device and vehicle telematics units.  Please review the individual class definitions for more detail.
+This document contains all of the documentation for an example Telematics Communications API (aka `telematics-api`).  This application is used as a bridge between a remote device and vehicle telematics units and applied for remote parking.  Please review the individual class definitions for more detail.
 
 [GitLab Repository](https://about.gitlab.com/)
 
 [JIRA Board](https://www.atlassian.com/software/jira)
 
-[`README.md`](../../README.md)
+[`README.md`](https://github.com/dan-fern/telematics-api/blob/main/README.md)
 
 Maintainers:
 * [Daniel Fernández](mailto:d.carlosfernandez@gmail.com)

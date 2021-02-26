@@ -400,7 +400,7 @@ Body (example length is 52): {"status_code":9991234,"status_text":"Example text"
 ***Invalid Hold Position***: after dmh_gesture_progress reaches 100 any of the following will reset the slider to 0, interrupt the maneuver and send one last transmission is made:
 * user releases the slider or slides below 95  
 * touch point strays from the dmh_gesture_progress = 100 position by more than 5% of the slider region. Formula accounting for slide in any direction:  
-  * (((deltaX > deltaY) && (|X100 – LMXcordinatRMT|<= 0.05 * deltaX)) OR ((deltaY > deltaX) && (|Y100 – LMYcordinatRMT|<= 0.05 * deltaY)))  
+  * (((deltaX > deltaY) && (|X100 – AppSliderPosX|<= 0.05 * deltaX)) OR ((deltaY > deltaX) && (|Y100 – AppSliderPosY|<= 0.05 * deltaY)))  
 
 **Error Response** : If the vehicle is not prepared to receive this signal, it may be totally ignored or a [vehicle_status](#vehicle_status) will return any failure status code(s).
 
