@@ -20,7 +20,7 @@ def make_new_socket( ):
 
 
 def print_menu( menu ):
-    options = menu.keys( )
+    options = list( menu )
     options.sort( )
     for entry in options:
         print( "%s %s" % ( entry, menu[entry] ) )

@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: Telematics API CI
 
 # Controls when the action will run.
 on:
@@ -82,18 +82,18 @@ jobs:
         run: ./build.sh --sim --tests --docs
 
       # Tests the production API
-      - name: Test production API
+      - name: Test Production API
         run: ./build/telematics-api CI_BYPASS
 
       # Tests the ASPM Simulator
-      - name: Test ASPM Simulator and repo utils
+      - name: Test ASPM Simulator
         run: ./build/utils/asp_simulator/telematics-api-sim CI_BYPASS
 
       # Tests Python utils
-      - name: Test ASPM Simulator and repo utils
+      - name: Test Python utils
         run: |
-          python utils/mobile_placeholder.py
-          python utils/key_for_mobile_placeholder.py
+          python2 utils/mobile_placeholder.py
+          python2 utils/key_for_mobile_placeholder.py
 
       # Runs the repo unit test suite
       - name: Test API
@@ -131,8 +131,23 @@ jobs:
 
       # Generates a coverage report
       - name: Generate coverage report
+        run: ./build.sh --tests --coverage
+
+      - name: Run Tests
         run: |
-          ./build.sh --tests --coverage
+          cd build
+          ./test/telematics-api-tests
+          mkdir coverage
+          cd ./..
+
+      - name: Run gcovr
+        run: |
+          gcovr -f src/ -f include/ -s --html --html-details -o ./build/coverage/coverage.html > cov_summary.txt
+          cat cov_summary.txt
+          rm cov_summary.txt
+          echo "Coverage report generated."
+          echo "Open build/coverage/coverage.html in your browser to see the report."
+          echo "- - -"
 
       # Uploads coverage report artifact
       - name: Upload coverage report artifact
