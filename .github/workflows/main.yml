@@ -32,10 +32,36 @@ jobs:
           pip3 install gcovr
 
   # This job manages the dependencies and builds the repositories
-  build-and-test-repo:
+  build-repo:
 
     # Waits for dependencies to validated
     needs: test-deps
+
+    # The type of runner that the job will run on
+    runs-on: ubuntu-20.04
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Set up the runner for compiling the repository
+      - name: Build setup
+        run: |
+          sudo apt-get update -qy
+          sudo apt-get install cmake plantuml graphviz -qy
+
+      # Compiles the repository
+      - name: Build repository
+        run: |
+          ./build.sh
+          ./build.sh --sim --tests
+
+  # This job manages the dependencies and builds the repositories
+  build-and-test-repo:
+
+    # Waits for dependencies to validated
+    needs: build-repo
 
     # The type of runner that the job will run on
     runs-on: ubuntu-20.04
@@ -53,9 +79,25 @@ jobs:
 
       # Compiles the repository
       - name: Build repository
+        run: ./build.sh --sim --tests --docs
+
+      # Tests the production API
+      - name: Test production API
+        run: ./build/telematics-api CI_BYPASS
+
+      # Tests the ASPM Simulator
+      - name: Test ASPM Simulator and repo utils
+        run: ./build/utils/asp_simulator/telematics-api-sim CI_BYPASS
+
+      # Tests Python utils
+      - name: Test ASPM Simulator and repo utils
         run: |
-          ./build.sh
-          ./build.sh --sim --tests --docs
+          python utils/mobile_placeholder.py
+          python utils/key_for_mobile_placeholder.py
+
+      # Runs the repo unit test suite
+      - name: Test API
+        run: ./build/test/telematics-api-tests
 
       # Uploads docs artifact
       - name: Upload docs artifact
@@ -70,7 +112,7 @@ jobs:
   generate-coverage-report:
 
     # Waits for dependencies to validated
-    needs: test-deps
+    needs: build-repo
 
     # The type of runner that the job will run on
     runs-on: ubuntu-20.04
