@@ -126,14 +126,15 @@ jobs:
       # Set up the runner for compiling the repository
       - name: Build setup
         run: |
-          export PATH=/home/runner/.local/bin:$PATH
           sudo apt-get update -qy
           sudo apt-get install cmake plantuml graphviz doxygen -qy
           pip3 install gcovr
 
       # Generates a coverage report
       - name: Generate coverage report
-        run: ./build.sh --tests --coverage
+        run: |
+          export PATH=~/.local/bin:$PATH
+          ./build.sh --tests --coverage
 
       # Uploads coverage report artifact
       - name: Upload coverage report artifact
