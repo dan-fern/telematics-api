@@ -301,15 +301,35 @@ TEST_F(ASPSignalTest, ManeuverStatusScanningToSelecting) {
     sendGetThreatData();
     sendListManeuvers();
     sh_->ManeuverStatus = ASP::ManeuverStatus::Selecting;
-    struct TCPMessage reply1 = client_->receive(true);
-    json reply1_header = json::parse(reply1.header);
-    EXPECT_EQ(reply1_header["group"], (std::string)RD::MANEUVER_STATUS);
-    struct TCPMessage reply2 = client_->receive(true);
-    json reply2_header = json::parse(reply2.header);
-    EXPECT_EQ(reply2_header["group"], (std::string)RD::THREAT_DATA);
-    struct TCPMessage reply3 = client_->receive(true);
-    json reply3_header = json::parse(reply3.header);
-    EXPECT_EQ(reply3_header["group"], (std::string)RD::AVAILABLE_MANEUVERS);
+
+    // expecting three replies - available_maneuvers, threat_data, and
+    // maneuver_status; these can arrive in any order
+    std::vector<TCPMessage> received_messages;
+    for( int i = 0; i < 3; ++i )
+    {
+        received_messages.push_back( client_->receive( ) );
+    }
+
+    for( const auto& msg : received_messages )
+    {
+        reply_header = json::parse( msg.header );
+        reply_body = json::parse( msg.body );
+        if( reply_header[ "group" ] == RD::THREAT_DATA )
+        {
+            EXPECT_EQ( reply_header[ "group" ], (std::string)RD::THREAT_DATA );
+        }
+        else if( reply_header[ "group" ] == RD::MANEUVER_STATUS )
+        {
+            EXPECT_EQ( reply_header[ "group" ], (std::string)RD::MANEUVER_STATUS );
+        }
+        else if( reply_header[ "group" ] == RD::AVAILABLE_MANEUVERS )
+        {
+            EXPECT_EQ( reply_header[ "group" ], (std::string)RD::AVAILABLE_MANEUVERS );
+        }
+        else {
+            FAIL( ); // received unexpected message type
+        }
+    }
 }
 
 // if ManeuverStatus changes from Selecting to Confirming
