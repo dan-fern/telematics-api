@@ -312,8 +312,8 @@ TEST_F(ASPSignalTest, ManeuverStatusScanningToSelecting) {
 
     for( const auto& msg : received_messages )
     {
-        reply_header = json::parse( msg.header );
-        reply_body = json::parse( msg.body );
+        json reply_header = json::parse( msg.header );
+        json reply_body = json::parse( msg.body );
         if( reply_header[ "group" ] == RD::THREAT_DATA )
         {
             EXPECT_EQ( reply_header[ "group" ], (std::string)RD::THREAT_DATA );
