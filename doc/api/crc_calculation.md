@@ -19,9 +19,9 @@
 
 | Signal Name | No of Bytes | Position | Publisher | Subscriber |
 | --- | --- | --- | --- | --- |
-| enable_vehicle_motion (LMMnvreEnblInputRMT) | 1 | 1 | TCU | NFSM |
-| dmh_vertical_touch (LMYcordinatRMT) | 2 | 2 | TCU | NFSM |
-| dmh_horizontal_touch (LMXcordinatRMT) | 2 | 3 | TCU | NFSM |
+| enable_vehicle_motion (ManeuverEnableInput) | 1 | 1 | TCU | NFSM |
+| dmh_vertical_touch (AppSliderPosY) | 2 | 2 | TCU | NFSM |
+| dmh_horizontal_touch (AppSliderPosX) | 2 | 3 | TCU | NFSM |
 | data_id = 0x482C (NOT TRANSMITTED) | 2 | 4 | NONE | NONE |
   
 ![crc_byte_packing](crc_byte_array.png "CRC byte packing")

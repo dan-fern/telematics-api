@@ -5,9 +5,10 @@
 This is an example repository for demonstrating communications layer architecture between a mobile device and an on-board, vehicle-agnostic telematics ECU.  The classes and signal set are abstracted.  
 
 These classes:
-*  statefully observe the signals broadcast by a sensory ECU regarding maneuvers and vehicle state (`Sensing` --> `Remote`),
-*  implement the [JSON API](doc/api/API.md) for communicating between a mobile phone and a vehicle telematics ECU (`Remote` --> `Sensing`),
-*  implement keyfob ranging requests to a chassis ECU based on the current activity being undertaken (`Chassis` <--> `Remote`), and
+*  statefully observe the signals broadcast by a Autonomous Sensory and Perception (`ASP`) ECU regarding maneuvers and vehicle state (`ASP` --> `RD`),
+*  implement the [JSON API](doc/api/API.md) for communicating between a remote device (`RD`) and a vehicle Telematics Control (`TCM`) ECU (`RD` --> `TCM`),
+*  implement keyfob ranging requests to a Domain Control (`DCM`) ECU based on the current activity being undertaken (`DCM` <--> `RD`),
+*  inform the mobile device of engine and door lock status from a Chassis Control (`CCM`) ECU (`CCM` <--> `RD`), and
 *  perform all atomic signal conversions for the above processes.
 
 ## Build Instructions
@@ -59,7 +60,7 @@ $ ./build.sh --sim
 
 Now, in one terminal, launch the simulator by calling:
 ```bash
-$ ./build/utils/sensing_simulator/telematics-api-sim
+$ ./build/utils/asp_simulator/telematics-api-sim
 ```
 
 The simulated sensory ECU is awaiting connection to the telematics ECU API.  You can launch that by opening a second terminal and calling:
@@ -98,7 +99,7 @@ Keyfob ranging requests will be handled as a consequence of the state as follows
 | Yes | No | 5 sec |
 | Yes | Yes | 500 msec |
 
-The `SignalHandler` class is built with several event loops running in parallel.  One called `updateSignalEventLoop_( )` is used to update all `XXX` signals every 30ms, or according to `XXX_REFRESH_RATE`.  The second called `rangingRequestEventLoop_( )` is used to request key fob ranging detection at a variable rate, depending on the state of the application, or:
+The `SignalHandler` class is built with several event loops running in parallel.  One called `updateSignalEventLoop_( )` is used to update all `ASP` signals every 30ms, or according to `ASP_REFRESH_RATE`.  The second called `rangingRequestEventLoop_( )` is used to request key fob ranging detection at a variable rate, depending on the state of the application, or:
 
 ```cpp
 enum class FobRangeRequestRate : unsigned int
@@ -115,19 +116,19 @@ where the `DefaultRate` of 5 seconds is used at any point a mobile device is con
 #### Vehicle Status Codes
 
 The API transmits the `vehicle_status` message when requested or when there is a change in the following signals:
-* `Sensing::NoFeatureAvailableMsg` -- 1xx
-* `Sensing::CancelMsg` -- 2xx
-* `Sensing::PauseMsg1` -- 3xx
-* `Sensing::PauseMsg2` -- 4xx
-* `Sensing::InfoMsg` -- 5xx
-* `Sensing::InstructMsg` -- 6xx
-* `Chassis::AcknowledgeRemotePIN` -- 7xx
-* `Chassis::ErrorMsg` -- 8xx
-* `Sensing::ManeuverStatus` -- 9xx
+* `ASP::NoFeatureAvailableMsg` -- 1xx
+* `ASP::CancelMsg` -- 2xx
+* `ASP::PauseMsg1` -- 3xx
+* `ASP::PauseMsg2` -- 4xx
+* `ASP::InfoMsg` -- 5xx
+* `ASP::InstructMsg` -- 6xx
+* `DCM::AcknowledgeRemotePIN` -- 7xx
+* `DCM::ErrorMsg` -- 8xx
+* `ASP::ManeuverStatus` -- 9xx
 
 and those codes are reported according to [this table](doc/vehiclestatuscodes.md).
 
-**NOTE**: `Chassis::AcknowlegeRemotePIN` and `Chassis::ErrorMessagesApp` are signals which originate from the chassis module and not the sensory module.
+**NOTE**: `DCM::AcknowlegeRemotePIN` and `DCM::ErrorMessagesApp` are signals which originate from the chassis module and not the sensory module.
 
 ## Run Tests
 
