@@ -77,10 +77,10 @@ then
 	echo "- - -"
 	if [ ${BUILD_COVERAGE_REPORT} == 'BUILD_COVERAGE_REPORT=ON' ]
 	then
-        # cd build
+        cd build
 		# ./test/telematics-api-tests
 		# mkdir coverage
-		# cd ./..
+		cd ./..
 		# gcovr -f src/ -f include/ -s --html --html-details -o ./build/coverage/coverage.html > cov_summary.txt
 		# cat cov_summary.txt
 		# rm cov_summary.txt
