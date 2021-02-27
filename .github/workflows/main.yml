@@ -15,10 +15,30 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+
+  # This job manages the dependencies and builds the repositories
+  test-deps:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-20.04
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+
+      # Set up the runner for compiling the repository
+      - name: Build setup
+        run: |
+          sudo apt-get update -qy
+          sudo apt-get install cmake plantuml graphviz doxygen -qy
+          pip3 install gcovr
+
   # This job manages the dependencies and builds the repositories
   build-and-test-repo:
+
+    # Waits for dependencies to validated
+    needs: test-deps
+
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -35,8 +55,8 @@ jobs:
       - name: Build repository
         run: |
           ./build.sh
-          ./build.sh --sim --tests --docs 
-          
+          ./build.sh --sim --tests --docs
+
       # Uploads docs artifact
       - name: Upload docs artifact
         uses: actions/upload-artifact@v2
@@ -45,37 +65,37 @@ jobs:
           path: ./doc/html
           retention-days: 90
 
-    
+
   # This job calls the unit test suite and generates a test coverage report
   generate-coverage-report:
+
+    # Waits for dependencies to validated
+    needs: test-deps
+
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-    
+    runs-on: ubuntu-20.04
+
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      
+
       # Set up the runner for compiling the repository
       - name: Build setup
         run: |
           sudo apt-get update -qy
           sudo apt-get install cmake plantuml graphviz doxygen -qy
           pip3 install gcovr
-          
+
       # Generates a coverage report
       - name: Generate coverage report
         run: |
-          ./build.sh --coverage
-          mkdir doc/html/coverage/
-          touch doc/html/coverage/nyan.md
-          
+          ./build.sh --tests --coverage
+
       # Uploads coverage report artifact
       - name: Upload coverage report artifact
         uses: actions/upload-artifact@v2
         with:
           name: coverage
-          path: ./doc/html/coverage
+          path: ./build/coverage
           retention-days: 90
-
-

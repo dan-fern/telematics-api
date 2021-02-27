@@ -7,7 +7,7 @@ This document contains all of the documentation for an example Telematics Commun
 
 [JIRA Board](https://www.atlassian.com/software/jira)
 
-[`README.md`](https://github.com/dan-fern/telematics-api/blob/main/README.md)
+[README](https://github.com/dan-fern/telematics-api/blob/main/README.md)
 
 Maintainers:
 * [Daniel Fernández](mailto:d.carlosfernandez@gmail.com)
