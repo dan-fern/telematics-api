@@ -484,11 +484,12 @@ TEST_F( MobileCommsTest, SendIncorrectPin )
     body["pin"] = picosha2::hash256_hex_string( std::string( DCM::POC_PIN ) );
     msg.body = body.dump();
     client_->send(msg);
-    reply = client_->receive( );
-    reply_header = json::parse( reply.header );
-    EXPECT_EQ( reply_header[ "group" ], (std::string)RD::VEHICLE_STATUS );
-    reply_body = json::parse( reply.body );
-    EXPECT_EQ( reply_body[ "status_7xx" ][ "status_code" ], 702 );
+    EXPECT_EQ( sh_->AcknowledgeRemotePIN, DCM::AcknowledgeRemotePIN::IncorrectPIN3xLock60s );
+    // reply = client_->receive( );
+    // reply_header = json::parse( reply.header );
+    // EXPECT_EQ( reply_header[ "group" ], (std::string)RD::VEHICLE_STATUS );
+    // reply_body = json::parse( reply.body );
+    // EXPECT_EQ( reply_body[ "status_7xx" ][ "status_code" ], 702 );
 
     // check other timeouts as well.
     sh_->AcknowledgeRemotePIN = DCM::AcknowledgeRemotePIN::IncorrectPIN3xLock300s;
